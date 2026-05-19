@@ -1,36 +1,36 @@
-name: CI Pipeline
+name: CD Pipeline
 
 on:
   push:
     branches:
       - develop
       - main
-      - feature/devops-setup
-  pull_request:
-    branches:
-      - develop
-      - main
 
 jobs:
-  build-and-test:
+  deploy-development:
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
+    environment: development
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Deploy to Development
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
 
-      - name: Validate HTML files
-        run: |
-          echo "Checking HTML files..."
-          test -f src/frontend/index.html
+  deploy-staging:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: staging
+    needs: deploy-development
 
-      - name: Validate CSS files
-        run: |
-          echo "Checking CSS files..."
-          test -f src/frontend/styles.css
+    steps:
+      - name: Deploy to Staging
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
 
-      - name: Build Docker image
-        run: docker build -t ecommerce-frontend .
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
 
-      - name: CI Success Message
-        run: echo "CI pipeline completed successfully."
+    steps:
+      - name: Deploy to Production
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
