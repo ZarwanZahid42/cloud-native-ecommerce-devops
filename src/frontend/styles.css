@@ -6,8 +6,13 @@
 }
 
 body {
-  background: #f4f7fb;
-  color: #222;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
 }
 
 .navbar {
@@ -64,11 +69,15 @@ button {
 }
 
 .card {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  text-align: center;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card h3 {
@@ -77,10 +86,12 @@ button {
 }
 
 footer {
-  text-align: center;
-  padding: 20px;
-  background: #0f172a;
-  color: white;
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: auto;
+    font-size: 15px;
 }
 
 #message {
@@ -102,5 +113,9 @@ footer {
   .navbar a {
     display: block;
     margin: 8px 0;
+  }
+
+  main {
+    flex: 1;
   }
 }
